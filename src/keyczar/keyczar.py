@@ -30,7 +30,7 @@ from keyczar import keyinfo
 from keyczar import keys
 from keyczar import readers
 from keyczar import writers
-from keyczart import util
+from keyczar import util
 
 VERSION = 0
 VERSION_BYTE = '\x00'

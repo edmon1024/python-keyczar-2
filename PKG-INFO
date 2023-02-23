@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: python-keyczar-2
-Version: 0.718
+Version: 0.720
 Summary: Toolkit for safe and simple cryptography
 Home-page: http://www.keyczar.org/
 Author: Google, Inc.

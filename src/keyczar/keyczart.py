@@ -28,7 +28,7 @@ from keyczar import keyinfo
 from keyczar import keys
 from keyczar import readers
 from keyczar import writers
-from keyczart import util
+from keyczar import util
 
 KEYSETS = [('aes', keyinfo.DECRYPT_AND_ENCRYPT, None, None),
            ('aes-crypted', keyinfo.DECRYPT_AND_ENCRYPT, None, 'aes'),

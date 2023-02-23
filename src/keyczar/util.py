@@ -20,7 +20,6 @@ Utility functions for keyczar package.
 """
 
 import base64
-import cPickle
 import codecs
 import functools
 import math
