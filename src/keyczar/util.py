@@ -796,7 +796,7 @@ class IncrementalBase64WSStreamReader(codecs.StreamReader, object):
         data = self.bytebuffer + newdata
         try:
           newchars, decodedbytes = self.decode(data, self.errors)
-        except UnicodeDecodeError, exc:
+        except UnicodeDecodeError as exc:
           if firstline:
             newchars, decodedbytes = self.decode(data[:exc.start], self.errors)
             lines = newchars.splitlines(True)

@@ -157,7 +157,7 @@ class SignerTest(unittest.TestCase):
     try:
       signer.Verify(self.input, unencoded_sig)
       raise Exception("Verify should throw a Decoding error")
-    except errors.Base64DecodingError, e:
+    except errors.Base64DecodingError as e:
       pass
     self.assertTrue(signer.Verify(self.input, sig))
 
@@ -189,7 +189,7 @@ class SignerTest(unittest.TestCase):
     try:
       signer.Verify(self.input, unencoded_sig)
       raise Exception("Verify should throw a Decoding error")
-    except errors.Base64DecodingError, e:
+    except errors.Base64DecodingError as e:
       pass
     self.assertTrue(signer.AttachedVerify(sig, "nonce"))
 
