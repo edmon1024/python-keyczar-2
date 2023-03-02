@@ -1,2 +1,2 @@
-pycrypto>2.0
+pycryptodome>3.0
 pyasn1

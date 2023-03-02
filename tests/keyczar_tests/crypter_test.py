@@ -469,7 +469,7 @@ class BaseCrypterTest(unittest.TestCase):
 class PyCryptoCrypterTest(BaseCrypterTest):
 
   def setUp(self):
-    keys.ACTIVE_CRYPT_LIB = 'pycrypto'
+    keys.ACTIVE_CRYPT_LIB = 'pycryptodome'
     super(PyCryptoCrypterTest, self).setUp()
 
 class M2CryptoCrypterTest(BaseCrypterTest):
@@ -491,7 +491,7 @@ class PyCryptoM2CryptoInteropTest(unittest.TestCase):
       aeskey = keys.AesKey.Generate(size)
 
       # ensure PyCrypto chosen
-      keys.ACTIVE_CRYPT_LIB = 'pycrypto'
+      keys.ACTIVE_CRYPT_LIB = 'pycryptodome'
       self.assertEquals(
         aeskey.Decrypt(aeskey.Encrypt(s)), s,
         'Cannot encrypt/decrypt with the same PyCrypto key! size:%s' %size
@@ -516,7 +516,7 @@ class PyCryptoM2CryptoInteropTest(unittest.TestCase):
       )
 
       # now switch to PyCrypto
-      keys.ACTIVE_CRYPT_LIB = 'pycrypto'
+      keys.ACTIVE_CRYPT_LIB = 'pycryptodome'
       self.assertEquals(
         aeskey.Decrypt(pycrypto_encrypted_str), s,
         'Cannot decrypt PyCrypto with PyCrypto key! size:%s' %size

@@ -45,7 +45,7 @@ except ImportError:
     EVP = None
 
 # overideable crypt library selection
-ACTIVE_CRYPT_LIB = 'm2crypto' if EVP else 'pycrypto'
+ACTIVE_CRYPT_LIB = 'm2crypto' if EVP else 'pycryptodome'
 
 from keyczar import errors
 from keyczar import keyczar
@@ -156,7 +156,12 @@ class Key(object):
 
   def Header(self):
     """Return the 5-byte header string including version byte, 4-byte hash_id."""
-    return chr(keyczar.VERSION) + util.Base64WSDecode(self.hash_id)
+    b = util.Base64WSDecode(self.hash_id)
+    if isinstance(b, bytes):
+      b = b.decode("iso-8859-1").encode("utf-8")
+
+    data = chr(keyczar.VERSION) + b.decode()
+    return data.encode("utf-8")
 
 class SymmetricKey(Key):
   """Parent class for symmetric keys such as AES, HMAC-SHA1"""
@@ -389,6 +394,8 @@ class AesKey(SymmetricKey):
     @return: PKCS5 padded string
     @rtype: string
     """
+
+    data = data.decode("ascii")
     pad = self.block_size - len(data) % self.block_size
     return data + pad * chr(pad)
 
@@ -432,11 +439,12 @@ class AesKey(SymmetricKey):
     @return: raw byte string ciphertext formatted to have Header|IV|Ciph|Sig.
     @rtype: string
     """
-    data = self._Pad(data)
+    data = bytes(self._Pad(data), 'ascii')
     iv_bytes = util.RandBytes(self.block_size)
     cipher = self.__CreateCipher(self.key_bytes, iv_bytes)
     ciph_bytes = cipher.encrypt(data)
-    ciph_bytes += cipher.final()
+    ciph_bytes += bytes(cipher.final(), 'ascii')
+
     msg_bytes = self.Header() + iv_bytes + ciph_bytes
     sig_bytes = self.hmac_key.Sign(msg_bytes)  # Sign bytes
     return msg_bytes + sig_bytes

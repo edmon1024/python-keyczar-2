@@ -28,11 +28,7 @@ import struct
 import warnings
 import sys
 
-try:
-  # Import hashlib if Python >= 2.5
-  from hashlib import sha1
-except ImportError:
-  from sha import sha as sha1
+from hashlib import sha1
 
 try:
   # check for presence of blocking I/O module
@@ -319,11 +315,17 @@ def RandBytes(n):
   # This function requires at least Python 2.4.
   return os.urandom(n)
 
+def ConverToBytes(value):
+  if isinstance(value, str):
+    value = value.encode("utf-8")
+
+  return value
+
 def Hash(*inputs):
   """Return a SHA-1 hash over a variable number of inputs."""
   md = sha1()
   for i in inputs:
-    md.update(i)
+    md.update(ConverToBytes(i))
   return md.digest()
 
 def PrefixHash(*inputs):
@@ -331,7 +333,7 @@ def PrefixHash(*inputs):
   md = sha1()
   for i in inputs:
     md.update(IntToBytes(len(i)))
-    md.update(i)
+    md.update(ConverToBytes(i))
   return md.digest()
 
 
@@ -353,7 +355,8 @@ def Base64WSEncode(s):
   @return: Base64 representation of s.
   @rtype: string
   """
-  return base64.urlsafe_b64encode(str(s)).replace("=", "")
+
+  return base64.urlsafe_b64encode(s).rstrip(b"=")
 
 
 def Decode(s):
@@ -377,6 +380,9 @@ def Base64WSDecode(s):
   @raise Base64DecodingError: If length of string (ignoring whitespace) is one
     more than a multiple of four.
   """
+  if isinstance(s, bytes):
+    s = s.decode()
+
   s = ''.join(s.splitlines())
   s = str(s.replace(" ", ""))  # kill whitespace, make string (not unicode)
   d = len(s) % 4

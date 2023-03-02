@@ -1,3 +1,33 @@
+Keyczar Python release 0.725
+==================
+
+Overview of Changes:
+	* Changes: pycrypto > pycryptodome
+
+Keyczar Python release 0.724
+==================
+
+Overview of Changes:
+	* Fix: bytes, str
+
+Keyczar Python release 0.723
+==================
+
+Overview of Changes:
+	* Fix: syntax
+
+Keyczar Python release 0.722
+==================
+
+Overview of Changes:
+	* Fix: syntax
+
+Keyczar Python release 0.721
+==================
+
+Overview of Changes:
+	* Fix: sha1
+
 Keyczar Python release 0.720
 ==================
 
